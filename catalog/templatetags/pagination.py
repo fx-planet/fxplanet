@@ -6,7 +6,7 @@ register = template.Library()
 
 @register.simple_tag
 def page_query_string(page_number, query_data):
-    query_data = query_data or {}
+    query_data = query_data or QueryDict(mutable=True)
     try:
         query_data = query_data.copy()
     except AttributeError:
