@@ -16,6 +16,14 @@
     <header>
         <nav class="shadow-sm p-3 mb-5 bg-white rounded navbar navbar-expand-md sticky-top navbar-light bg-white">
             <a class="navbar-brand" href="/">FX Planet <small class="text-muted text-uppercase">alpha</small></a>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <form class="form-inline my-2 my-lg-0" action="{% url "latest-effects" %}" method="get">
+                    <input class="form-control mr-sm-2" type="search" value="{{ search.q }}" name="q" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
         </nav>
     </header>
     <main role="main">

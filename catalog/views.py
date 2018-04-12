@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
 
+from .forms import EffectSearchForm
 from .models import Effect, Category
 
 
@@ -35,6 +36,10 @@ class LatestEffectsListView(ListView):
         if 'category' in self.kwargs:
             cat = self.kwargs['category']
             qs = qs.filter(Q(category=cat) | Q(category__parent=cat))
+        form = EffectSearchForm(data=self.request.GET)
+        self.form = form
+        if form.is_valid():
+            qs = form.search(qs)
         return qs
 
     def get_context_data(self):
@@ -46,6 +51,7 @@ class LatestEffectsListView(ListView):
         else:
             data['subcategories'] = Category.objects.filter(
                                 parent__isnull=True)
+        data['search'] = self.form.data
         return data
 
 
