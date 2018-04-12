@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
+from django.views.generic import ListView, DetailView
 
 from .models import Effect, Category
 
@@ -11,6 +13,15 @@ def index(request):
             'subcategories': Category.objects.filter(parent__isnull=True),
             }
     return render(request, 'index.html', ctx)
+
+
+@require_POST
+def download(request, slug):
+    obj = get_object_or_404(Effect, slug=slug)
+    resp = HttpResponse(obj.latest_version().effect_file)
+    resp['Content-Disposition'] = 'attachment; filename=%s' % obj.filename
+    resp['Content-Type'] = 'text/x-opencl-src'
+    return resp
 
 
 class LatestEffectsListView(ListView):

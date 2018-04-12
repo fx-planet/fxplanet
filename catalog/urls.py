@@ -7,6 +7,8 @@ urlpatterns = [
         'detail/<str:slug>/', views.EffectDetailView.as_view(),
         name='effect-detail'),
     path(
+        'detail/<str:slug>/download/', views.download, name='effect-download'),
+    path(
         'latest/', views.LatestEffectsListView.as_view(),
         name='latest-effects'),
     path(

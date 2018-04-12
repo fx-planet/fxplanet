@@ -3,13 +3,21 @@ import json
 import requests
 
 from concurrent.futures import ThreadPoolExecutor, as_completed, wait
+from dateutil.parser import parse as parse_dt
 from io import BytesIO
 
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
-from catalog.models import Effect, Category, Link
+from catalog.models import Effect, Category, Link, Version
+
+
+def todate(x):
+    if x:
+        return parse_dt(x)
+    else:
+        return None
 
 
 class Command(BaseCommand):
@@ -82,7 +90,8 @@ class Command(BaseCommand):
             obj.import_path = x['path']
             obj.authors = x.get('author') or []
             obj.maintainers = x.get('maintainer') or []
-            obj.creation_date = x.get('creation_date')
+            obj.creation_date = todate(x.get('created'))
+            obj.license = x.get('license')
             obj.save()
             imported_objs.append(obj)
 
@@ -92,6 +101,13 @@ class Command(BaseCommand):
                 link = obj.link_set.get_or_create(
                         url=url, defaults={'kind': 'other'})[0]
                 link_types_as.append(executor.submit(fetch_contentype, link))
+
+            release_date = todate(x.get('released'))
+            if not obj.version_set.filter(release_date=release_date).exists():
+                ver = Version(effect=obj, release_date=release_date)
+                print(obj.filename)
+                ver.effect_file.save(obj.filename, File(open(x['abspath'], 'rb')))
+                ver.save()
 
         print("Updating links...")
         for res in as_completed(link_types_as):

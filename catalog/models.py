@@ -35,12 +35,22 @@ class Effect(models.Model):
             base_field=models.CharField(max_length=128), blank=True)
     creation_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    license = models.CharField(max_length=64, blank=True, null=True)
 
     def image_links(self):
         return self.link_set.filter(kind='image')
 
     def has_gallery(self):
         return self.link_set.filter(kind='image').count() > 1
+
+    def has_download(self):
+        return self.version_set.all().exists()
+
+    def latest_version(self):
+        try:
+            return self.version_set.order_by('-release_date')[0]
+        except IndexError:
+            raise Version.DoesNotExist
 
 
 class Link(models.Model):
@@ -61,3 +71,7 @@ class Version(models.Model):
     effect = models.ForeignKey(Effect, on_delete=models.CASCADE)
     release_date = models.DateField()
     effect_file = models.FileField(upload_to=effect_version_filename)
+
+    class Meta:
+        unique_together = ('effect', 'release_date')
+        ordering = ('-release_date',)

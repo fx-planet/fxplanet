@@ -26,7 +26,19 @@
 
         <hr class="my-sm-5" />
 
-        <a class="btn btn-primary float-right" href="#"><i class="fa fa-download"></i> Download</a>
+        {% with object.latest_version as version %}
+        <div class="float-right card w-25 p-4">
+            Author(s): {{ object.authors|join:", " }}<br />
+            Release date: {{ version.release_date|default:"-" }}<br />
+            Creation date: {{ object.creation_date|default:"-" }}<br />
+            License: {{ object.license|default:"unknown" }}<br />
+            <hr />
+            <form method="post" action="{% url "effect-download" slug=object.slug %}">
+                {% csrf_token %}
+                <button class="btn btn-primary btn-block" type="submit" id="download" {% if not version %}disabled{% endif %}><i class="fa fa-download"></i> Download</button>
+            </form>
+        </div>
+        {% endwith %}
 
         <div class="description">
             {{ object.description|linebreaks }}
