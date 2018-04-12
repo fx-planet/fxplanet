@@ -20,13 +20,13 @@
 
 <div class="row">
 {% for obj in object_list %}
-<div class="col-sm">
+<div class="col-lg">
     {% include "catalog/effect_list_item.html" with object=obj %}
 </div>
 {% cycle "" "" '</div><div class="row">' %}
 {% empty %}
 {% if search %}
-    <div class="col-sm">
+    <div class="col-xs">
         <p><em>No results found</em></p>
     </div>
 {% endif %}

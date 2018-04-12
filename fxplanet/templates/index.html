@@ -15,7 +15,7 @@
 
 <div class="row">
 {% for obj in latest_effects|slice:":9" %}
-<div class="col-sm">
+<div class="col-lg">
     {% include "catalog/effect_list_item.html" with object=obj %}
 </div>
 {% cycle "" "" '</div><div class="row">' %}

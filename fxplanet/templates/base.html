@@ -1,4 +1,5 @@
-<!doctype html>
+<!doctype htmdf
+>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -16,8 +17,15 @@
     <header>
         <nav class="shadow-sm p-3 mb-5 bg-white rounded navbar navbar-expand-md sticky-top navbar-light bg-white">
             <a class="navbar-brand" href="/">FX Planet <small class="text-muted text-uppercase">alpha</small></a>
-            <div class="navbar-collapse collapse">
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+             </button>
+             <div class="navbar-collapse collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url "latest-effects" %}">Effects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">How to install</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tutorials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Authors</a></li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{% url "latest-effects" %}" method="get">
                     <input class="form-control mr-sm-2" type="search" value="{{ search.q }}" name="q" placeholder="Search" aria-label="Search">

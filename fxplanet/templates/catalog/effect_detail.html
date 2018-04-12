@@ -27,7 +27,7 @@
         <hr class="my-sm-5" />
 
         {% with object.latest_version as version %}
-        <div class="float-right card w-25 p-4">
+        <div class="float-md-right card w-md-25 p-4 mb-4">
             Author(s): {{ object.authors|join:", " }}<br />
             Release date: {{ version.release_date|default:"-" }}<br />
             Creation date: {{ object.creation_date|default:"-" }}<br />
