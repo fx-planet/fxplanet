@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h1 class="display-3">{{ object.name }}</h1>
+<h2 class="h5">
+    <a href="{% url "latest-effects" %}">All</a> /
+    {% if object.category.parent %}
+        <a href="{% url "latest-effects-by-category" object.category.parent.pk %}">
+            {{ object.category.parent.name }}
+        </a> / 
+    {% endif %}
+    <a href="{% url "latest-effects-by-category" object.category.pk %}">{{ object.category.name }}</a>
+</h2>
+
+<hr class="my-sm-5" />
+
+        <a href="{% url "effect-detail" slug=object.slug %}">
+        {% if object.cover_image %}
+        <img id="mainimg" class="card-img-top" src="{{ object.cover_image.url }}" />
+        {% else %}
+        <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
+        {% endif %}
+        </a>
+
+        <hr class="my-sm-5" />
+
+        <a class="btn btn-primary float-right" href="#"><i class="fa fa-download"></i> Download</a>
+
+        <div class="description">
+            {{ object.description|linebreaks }}
+        </div>
+
+        {% if object.has_gallery %}
+        <hr class="my-sm-5" />
+        
+        <div id="gallery">
+        {% for img in object.image_links %}
+            <a href="#mainimg"><img src="{{ img.url }}" class="border border-white img-thumbnail rounded" /></a>
+        {% endfor %}
+        </div>
+        {% endif %}
+
+
+        {% if object.link_set.all %}
+        <hr class="my-sm-5" />
+        <h3 class="h5">Additional resources</h3>
+        <ul>
+            {% for link in object.link_set.all %}
+            <li><a href="{{ link.url }}">{{ link.url }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var $mainimg = $('#mainimg');
+            $('#gallery > a').click(function(ev) {
+                var $tg = $(ev.target);
+                $mainimg.attr('src', $tg.attr('src'));
+                $('#gallery > a > img').removeClass('border-primary');
+                $tg.addClass('border-primary');
+                $tg.removeClass('border-white');
+                //ev.preventDefault();
+            });
+        });
+    </script>
+{% endblock %}

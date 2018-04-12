@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<h2 class="display-4 mb-sm-5">Latest effects</h2>
+
+<div class="row">
+{% for obj in latest_effects|slice:":9" %}
+<div class="col-sm">
+    {% include "catalog/effect_list_item.html" with object=obj %}
+</div>
+{% cycle "" "" '</div><div class="row">' %}
+{% endfor %}
+
+</div>
+
+<a class="my-sm-4 float-right"  href="{% url "latest-effects" %}?page=2"><i class="fa fa-arrow-right"></i> Show more</a>
+
+{% endblock %}

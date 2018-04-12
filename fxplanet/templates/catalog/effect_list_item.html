@@ -1,0 +1,28 @@
+{% load staticfiles %}
+    <div class="card">
+        <a href="{% url "effect-detail" slug=object.slug %}">
+        {% if object.cover_image %}
+        <img class="card-img-top" src="{{ object.cover_image.url }}" />
+        {% else %}
+        <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
+        </a>
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{% url "effect-detail" slug=object.slug %}">{{ object.name }}</a>
+            </h5>
+            <h6>
+                {% if object.category.parent %}
+                    <a href="{% url "latest-effects-by-category" object.category.parent.pk %}">
+                        {{ object.category.parent.name }}
+                    </a> / 
+                {% endif %}
+                <a href="{% url "latest-effects-by-category" object.category.pk %}">{{ object.category.name }}</a>
+            </h6>
+            <div class="description">
+                {{ object.description|truncatewords:60|linebreaks }}
+            </div>
+            <a class="card-link" href="{% url "effect-detail" slug=object.slug %}">Show details</a>
+            <a class="card-link float-right" href="#">Download</a>
+        </div>
+    </div>

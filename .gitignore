@@ -1,0 +1,4 @@
+*.pyc
+*.pyo
+/fxplanet/static_collected
+/fxplanet/media

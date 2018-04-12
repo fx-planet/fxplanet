@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+{% if category %}
+<h2>
+    <a href="{% url "latest-effects" %}">All</a> /
+    {% if category.parent %}
+    <a href="{% url "latest-effects-by-category" category.parent.pk %}">{{ category.parent.name }}</a> /
+    {% endif %}
+    {{ category.name }}
+</h2>
+{% endif %}
+{% if subcategories %}
+    {% for cat in subcategories %}
+    <a href="{% url "latest-effects-by-category" cat.pk %}">{{ cat.name }}</a> {% if not forloop.last %} | {% endif %}
+    {% endfor %}
+    <hr />
+{% endif %}
+
+<div class="row">
+{% for obj in object_list %}
+<div class="col-sm">
+    {% include "catalog/effect_list_item.html" with object=obj %}
+</div>
+{% cycle "" "" '</div><div class="row">' %}
+{% endfor %}
+
+</div>
+
+{% if is_paginated %}
+<hr />
+<nav>
+        <ul class="pagination">
+                <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                    <a class="page-link" {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% endif %}><i class="fa fa-arrow-left"></i></a>
+                </li>
+                {% for page in page_obj.paginator.page_range %}
+                <li class="page-item {% if page == page_obj.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                </li>
+                {% endfor %}
+                <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                    <a class="page-link" {% if page_obj.has_next %} href="?page={{ page_obj.next_page_number }}"{% endif %}><i class="fa fa-arrow-right"></i></a>
+                </li>
+        </ul>
+</nav>
+{% endif %}
+
+{% endblock %}
