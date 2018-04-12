@@ -2,7 +2,16 @@
 {% load staticfiles %}
 
 {% block content %}
-<h2 class="display-4 mb-sm-5">Latest effects</h2>
+<h2>
+    <a href="{% url "latest-effects" %}">Effects</a>
+</h2>
+
+{% if subcategories %}
+    {% for cat in subcategories %}
+    <a href="{% url "latest-effects-by-category" cat.pk %}">{{ cat.name }}</a> {% if not forloop.last %} | {% endif %}
+    {% endfor %}
+    <hr />
+{% endif %}
 
 <div class="row">
 {% for obj in latest_effects|slice:":9" %}

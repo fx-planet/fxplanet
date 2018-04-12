@@ -8,6 +8,7 @@ from .models import Effect, Category
 def index(request):
     ctx = {
             'latest_effects': Effect.objects.order_by('-created_at'),
+            'subcategories': Category.objects.filter(parent__isnull=True),
             }
     return render(request, 'index.html', ctx)
 
