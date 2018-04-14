@@ -2,3 +2,4 @@
 *.pyo
 /fxplanet/static_collected
 /fxplanet/media
+/fxplanet/settings_local.py

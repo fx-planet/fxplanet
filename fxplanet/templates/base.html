@@ -1,5 +1,5 @@
-<!doctype htmdf
->
+<!doctype htmdf>
+{% load staticfiles %}
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="{% static "base.css" %}">
     <title>{% block title %}FX Planet{% endblock %} &alpha;</title>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   </head>
@@ -23,9 +24,9 @@
              <div class="navbar-collapse collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url "latest-effects" %}">Effects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/how-to-install/">How to install</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/tutorials/">Tutorials</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/authors/">Authors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/how-to-install/">How to install</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/tutorials/">Tutorials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/authors/">Authors</a></li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{% url "latest-effects" %}" method="get">
                     <input class="form-control mr-sm-2" type="search" value="{{ search.q }}" name="q" placeholder="Search" aria-label="Search">

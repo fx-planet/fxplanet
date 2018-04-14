@@ -132,7 +132,11 @@ STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'fxplanet', 'static'),
 ]
 
+SITE_ID = 1
+
 try:
     from .settings_local import *
 except ImportError:
     pass
+
+
