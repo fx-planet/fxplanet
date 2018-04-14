@@ -23,9 +23,9 @@
              <div class="navbar-collapse collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url "latest-effects" %}">Effects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">How to install</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tutorials</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Authors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/how-to-install/">How to install</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tutorials/">Tutorials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/authors/">Authors</a></li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{% url "latest-effects" %}" method="get">
                     <input class="form-control mr-sm-2" type="search" value="{{ search.q }}" name="q" placeholder="Search" aria-label="Search">
