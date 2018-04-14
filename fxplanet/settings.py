@@ -131,3 +131,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'fxplanet', 'media')
 STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'fxplanet', 'static'),
 ]
+
+try:
+    from .settings_local import *
+except ImportError:
+    pass
