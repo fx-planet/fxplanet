@@ -59,6 +59,9 @@ class Link(models.Model):
     kind = models.CharField(
             choices=LINK_TYPE_CHOICES, max_length=32, db_index=True)
 
+    class Meta:
+        ordering = ('pk',)
+
 
 def effect_version_filename(instance, filename):
     return os.path.join(
