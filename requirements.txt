@@ -1,0 +1,5 @@
+Django==2.0.4
+psycopg2-binary==2.7.4
+requests==2.18.4
+Pillow
+python-dateutil
