@@ -42,10 +42,45 @@ Settings defined in this file will *override* base settings
 make runserver
 ```
 
-to change a port:
+or
+
+```
+./manage runserver
+```
+
+Open browser with http://127.0.0.1:8000/
+
+
+To change a port call:
 
 ```
 make runserver PORT=8001
+```
+
+or
+
+```
+./manage runserver 8001
+```
+
+
+## Management commands
+
+Use `manage` to call Django's management commands. This is a wrapper
+which automatically activates Python's virtual environment.
+
+Examples:
+
+1. Run Django shell
+
+```
+./manage shell
+```
+
+2. Execute migrations
+
+```
+./manage migrate
 ```
 
 
