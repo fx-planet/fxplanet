@@ -82,6 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fxplanet',
+        'USER': 'fxplanet',
+        'PASSWORD': 'fxplanet',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 

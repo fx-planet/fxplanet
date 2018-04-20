@@ -4,3 +4,9 @@
 /fxplanet/media
 /fxplanet/settings_local.py
 /env
+/.idea
+
+# Stay safe and not commit any of these
+*.gz
+*.zip
+*.sql
