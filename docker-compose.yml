@@ -1,0 +1,31 @@
+version: '2'
+services:
+
+  postgres:
+    image: postgres:9
+    environment:
+      POSTGRES_DB: fxplanet
+      POSTGRES_USER: fxplanet
+      POSTGRES_PASSWORD: fxplanet
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      # The dump will be initialized on first start
+      - ./fxplanet.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
+      # postgres does not recommend mounting the data dir. We just persist it as volume
+      - /var/lib/postgresql/data/pgdata
+
+  django:
+    # Build from Dockerfile
+    build: .
+    environment:
+      PYTHONUNBUFFERED: 1
+    # Ports to expose on localhost
+    ports:
+      - 8000:8000
+    # Mount working directions inside the container so we don't have to rebuild it
+    volumes:
+      - ./catalog:/app/catalog
+      - ./fxplanet:/app/fxplanet
+    # Let postgres run first
+    depends_on:
+      - postgres

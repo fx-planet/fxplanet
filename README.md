@@ -83,6 +83,11 @@ Examples:
 ./manage migrate
 ```
 
+## Docker quick-start
+
+* Ensure media files are in fxplanet/media
+* Ensure database dump is in top level directory as fxplanet.sql.gz
+* docker-compose up
 
 ## Helpful links
 
