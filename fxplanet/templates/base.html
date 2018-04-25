@@ -1,5 +1,5 @@
 <!doctype html>
-{% load staticfiles %}
+{% load staticfiles compress %}
 <html class="layout-pf">
   <head>
     <!-- Required meta tags -->
@@ -11,7 +11,9 @@
     <!-- PatternFly CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/css/patternfly.min.css" integrity="sha256-nNGxuG8p95S3RD1u5ABAy7lSfcf3gCQ9wNI5Q51lNB4=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/css/patternfly-additions.min.css" integrity="sha256-IbayE4lLZpQYTVYphfJo+MMBkyomXaKeg8a+ggwLNtg=" crossorigin="anonymous" />
+    {% compress css %}
     <link rel="stylesheet" href="{% static "base.css" %}">
+    {% endcompress %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
   </head>

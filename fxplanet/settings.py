@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'compressor',
     'catalog',
 ]
 
@@ -135,6 +136,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'fxplanet', 'media')
 STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'fxplanet', 'static'),
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
 
 SITE_ID = 1
 
