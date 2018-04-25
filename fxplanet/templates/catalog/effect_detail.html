@@ -3,80 +3,100 @@
 
 {% block content %}
 
-<h1 class="display-3">{{ object.name }}</h1>
-<h2 class="h5">
-    <a href="{% url "latest-effects" %}">All</a> /
-    {% if object.category.parent %}
-        <a href="{% url "latest-effects-by-category" object.category.parent.pk %}">
-            {{ object.category.parent.name }}
-        </a> / 
-    {% endif %}
-    <a href="{% url "latest-effects-by-category" object.category.pk %}">{{ object.category.name }}</a>
+<h2>Effects
+  {% if object.category %}
+  {% if object.category.parent %}
+  &raquo; {{ object.category.parent.name }}
+  {% endif %}
+  &raquo; {{ object.category.name }}
+  {% endif %}
+
+  &raquo; {{ object.name }}
 </h2>
 
-<hr class="my-sm-5" />
+<div class="row-fluid">
 
-        <a href="{% url "effect-detail" slug=object.slug %}">
+  <div class="col-md-2">
+    <div class="effects-tree"></div>
+  </div>
+  <div class="col-md-10">
+
+    <div class="container-fluid text-center">
+      <a href="{% url "effect-detail" slug=object.slug %}">
         {% if object.cover_image %}
-        <img id="mainimg" class="card-img-top" src="{{ object.cover_image.url }}" />
+          <img id="mainimg" class="card-img-top" src="{{ object.cover_image.url }}" />
         {% else %}
-        <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
+          <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
         {% endif %}
-        </a>
+      </a>
+    </div>
 
-        <hr class="my-sm-5" />
+    <hr />
 
-        {% with object.latest_version as version %}
-        <div class="float-md-right card w-md-25 p-4 mb-4">
-            Author(s): {{ object.authors|join:", " }}<br />
-            Release date: {{ version.release_date|default:"-" }}<br />
-            Creation date: {{ object.creation_date|default:"-" }}<br />
-            License: {{ object.license|default:"unknown" }}<br />
-            <hr />
-            <form method="post" action="{% url "effect-download" slug=object.slug %}">
-                {% csrf_token %}
-                <button class="btn btn-primary btn-block" type="submit" id="download" {% if not version %}disabled{% endif %}><i class="fa fa-download"></i> Download</button>
-            </form>
+    {% with object.latest_version as version %}
+      <div class="card-pf card-pf-view pull-right" style="width: 250px">
+        <div class="card-pf-body">
+          <div class="card-pf-top-element text-center">
+            {{ object.name }}
+          </div>
+
+          <strong>Author(s):</strong> <br />
+          <strong>Release date: </strong> {{ version.release_date|default:"-" }}<br />
+          <strong>Creation date: </strong> {{ object.creation_date|default:"-" }}<br />
+          <strong>License: </strong> {{ object.license|default:"unknown" }}<br />
+
+          <hr />
+
+          <form method="post" action="{% url "effect-download" slug=object.slug %}">
+            {% csrf_token %}
+            <button class="btn btn-primary btn-block" type="submit" id="download" {% if not version %}disabled{% endif %}><i class="fa fa-download"></i> Download</button>
+          </form>
+
         </div>
-        {% endwith %}
+      </div>
+    {% endwith %}
 
-        <div class="description">
-            {{ object.description|linebreaks }}
-        </div>
+    <div class="description">
+      {{ object.description|linebreaks }}
+    </div>
 
-        {% if object.has_gallery %}
-        <hr class="my-sm-5" />
-        
-        <div id="gallery">
+    {% if object.has_gallery %}
+      <hr class="my-sm-5" />
+
+      <div id="gallery">
         {% for img in object.image_links %}
-            <a href="#mainimg"><img src="{{ img.url }}" class="border border-white img-thumbnail rounded" /></a>
+          <a href="#mainimg"><img src="{{ img.url }}" class="border border-white img-thumbnail rounded" /></a>
         {% endfor %}
-        </div>
-        {% endif %}
+      </div>
+    {% endif %}
 
+    {% if object.link_set.all %}
+      <hr class="my-sm-5" />
+      <h3 class="h5">Additional resources</h3>
+      <ul>
+        {% for link in object.link_set.all %}
+        <li><a href="{{ link.url }}">{{ link.url }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
 
-        {% if object.link_set.all %}
-        <hr class="my-sm-5" />
-        <h3 class="h5">Additional resources</h3>
-        <ul>
-            {% for link in object.link_set.all %}
-            <li><a href="{{ link.url }}">{{ link.url }}</a></li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+{% block foot %}
+  {% include "catalog/effect_browser.html" with categories=categories category=object.category effects=effects current_effect=object %}
 
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var $mainimg = $('#mainimg');
-            $('#gallery > a').click(function(ev) {
-                var $tg = $(ev.target);
-                $mainimg.attr('src', $tg.attr('src'));
-                $('#gallery > a > img').removeClass('border-primary');
-                $tg.addClass('border-primary');
-                $tg.removeClass('border-white');
-                //ev.preventDefault();
-            });
-        });
-    </script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var $mainimg = $('#mainimg');
+      $('#gallery > a').click(function(ev) {
+        var $tg = $(ev.target);
+        $mainimg.attr('src', $tg.attr('src'));
+        $('#gallery > a > img').removeClass('border-primary');
+        $tg.addClass('border-primary');
+        $tg.removeClass('border-white');
+        //ev.preventDefault();
+      });
+    });
+  </script>
 {% endblock %}

@@ -27,7 +27,6 @@ def download(request, slug):
 
 class LatestEffectsListView(ListView):
     model = Effect
-    paginate_by = 9
     template_name = 'latest.html'
     ordering = ('-created_at',)
 
@@ -44,6 +43,9 @@ class LatestEffectsListView(ListView):
 
     def get_context_data(self):
         data = super(LatestEffectsListView, self).get_context_data()
+        data['categories'] = Category.objects.filter()
+        data['effects'] = Effect.objects.filter()
+
         if 'category' in self.kwargs:
             cat = Category.objects.get(pk=self.kwargs['category'])
             data['category'] = cat
@@ -57,3 +59,12 @@ class LatestEffectsListView(ListView):
 
 class EffectDetailView(DetailView):
     model = Effect
+
+    # def get_success_url(self):
+    #     return reverse('notes-list')
+
+    def get_context_data(self, **kwargs):
+        data = super(EffectDetailView, self).get_context_data(**kwargs)
+        data['categories'] = Category.objects.filter()
+        data['effects'] = Effect.objects.filter()
+        return data

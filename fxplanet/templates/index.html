@@ -2,27 +2,26 @@
 {% load staticfiles %}
 
 {% block content %}
-<h2>
-    <a href="{% url "latest-effects" %}">Effects</a>
-</h2>
 
-{% if subcategories %}
-    {% for cat in subcategories %}
-    <a href="{% url "latest-effects-by-category" cat.pk %}">{{ cat.name }}</a> {% if not forloop.last %} | {% endif %}
+  <h2>New Effects</h2>
+  <div class="container-cards-pf cards-effect">
+    {% for obj in latest_effects|slice:":8" %}
+      {% include "catalog/effect_list_item.html" with object=obj %}
     {% endfor %}
-    <hr />
-{% endif %}
+  </div>
+  <div class="row text-center">
+    <a class="btn btn-primary btn-lg" href="{% url "latest-effects" %}">See all effects</a>
+  </div>
 
-<div class="row">
-{% for obj in latest_effects|slice:":9" %}
-<div class="col-lg">
-    {% include "catalog/effect_list_item.html" with object=obj %}
+  <h2>Tools</h2>
+  <div class="container-cards-pf cards-effect">
+    TODO
+  </div>
+
+  <h2>Tutorials</h2>
+  <div class="container-cards-pf cards-effect">
+    TODO
+  </div>
 </div>
-{% cycle "" "" '</div><div class="row">' %}
-{% endfor %}
-
-</div>
-
-<a class="my-sm-4 float-right"  href="{% url "latest-effects" %}?page=2"><i class="fa fa-arrow-right"></i> Show more</a>
 
 {% endblock %}

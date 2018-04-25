@@ -1,50 +1,81 @@
-<!doctype htmdf>
+<!doctype html>
 {% load staticfiles %}
-<html lang="en">
+<html class="layout-pf">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="{% static "base.css" %}">
     <title>{% block title %}Lightworks User Repository{% endblock %}</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <!-- PatternFly CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/css/patternfly.min.css" integrity="sha256-nNGxuG8p95S3RD1u5ABAy7lSfcf3gCQ9wNI5Q51lNB4=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/css/patternfly-additions.min.css" integrity="sha256-IbayE4lLZpQYTVYphfJo+MMBkyomXaKeg8a+ggwLNtg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{% static "base.css" %}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body class="cards-pf">
     {% block body %}
     <header>
-        <nav class="shadow-sm p-3 mb-5 bg-white rounded navbar navbar-expand-md sticky-top navbar-light bg-white">
-            <a class="navbar-brand" href="/">Lightworks User Repository <small class="badge badge-warning">alpha</small></a>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                     <span class="navbar-toggler-icon"></span>
-             </button>
-             <div class="navbar-collapse collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url "latest-effects" %}">Effects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pages/how-to-install/">How to install</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pages/tutorials/">Tutorials</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pages/authors/">Authors</a></li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0" action="{% url "latest-effects" %}" method="get">
-                    <input class="form-control mr-sm-2" type="search" value="{{ search.q }}" name="q" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" id="logo" href="/">
+              Lightworks User Repository
+              <small class="label label-warning">alpha</small>
+            </a>
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <div class="navbar-collapse navbar-collapse-1 collapse">
+            <ul class="nav navbar-nav navbar-primary navbar-right">
+              <li>
+                <a href="{% url "latest-effects" %}">Effects</a>
+              </li>
+              <li>
+                <a href="/pages/tools/">Tools</a>
+              </li>
+              <li>
+                <a href="/pages/tutorials/">Tutorials</a>
+              </li>
+              <li>
+                <a href="/pages/authors/">Authors</a>
+              </li>
+              <li class="hidden-xs">
+                <form class="navbar-form navbar-right" method="get" id="searchform" action="{% url "latest-effects" %}">
+                  <div class="form-group">
+                    <input name="q" id="q" class="form-control" value="{{ search.q }}" placeholder="Search" type="text" aria-label="Search">
+                    <button type="submit" class="btn btn-outline-success">Submit</button>
+                  </div>
                 </form>
-            </div>
-        </nav>
-    </header>
-    <main role="main">
-        <div class="container">
-        {% block content %}{% endblock %}
-        {% endblock %}
+              </li>
+            </ul>
+          </div>
         </div>
-    </main>
+      </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+    {% endblock %}
+
     <!-- Optional JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/js/patternfly.min.js" integrity="sha256-RRYUdJ9Tqrf5Nv816VKnvEebsFWrt1WUYvsWUHHK+Ao=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/js/patternfly-functions.min.js" integrity="sha256-LUBPzE5qyrA7W3E2MxZ3qL5vCSqHpC7ujZxMfp9Wu68=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/js/patternfly-functions-sidebar.min.js" integrity="sha256-6qPazcNzPBlCITxXKAVqiAC+cCKeRjbGz3XRld+Sstw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/4.0.0-rc.1/js/patternfly-functions-navigation.min.js" integrity="sha256-sb+ai1qvZben/z+uDzCyFsgJopLyZA53bRR3HIeC8fg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-tooltip.min.js" integrity="sha256-9AeT3HOnzBOXSYb0q6qrJzpDO/RB6RXZKyRCrA5dSkY=" crossorigin="anonymous"></script>
+
+    {% block foot %}{% endblock %}
   </body>
 </html>
 
