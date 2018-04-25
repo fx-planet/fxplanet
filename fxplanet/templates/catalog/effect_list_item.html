@@ -1,27 +1,37 @@
 {% load staticfiles %}
-    <div class="card">
-        <a href="{% url "effect-detail" slug=object.slug %}">
+
+<div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select">
+  <div class="card-pf-body">
+
+    <h2 class="card-pf-title text-center">
+      <a href="{% url "effect-detail" slug=object.slug %}">{{ object.name }}</a>
+    </h2>
+
+    <div class="card-pf-top-element text-center">
+      <a href="{% url "effect-detail" slug=object.slug %}">
         {% if object.cover_image %}
-        <img class="card-img-top" src="{{ object.cover_image.url }}" />
+          <img class="card-img-top" src="{{ object.cover_image.url }}" />
         {% else %}
-        <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
-        </a>
+          <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
         {% endif %}
-        <div class="card-body">
-            <h5 class="card-title">
-                <a href="{% url "effect-detail" slug=object.slug %}">{{ object.name }}</a>
-            </h5>
-            <h6>
-                {% if object.category.parent %}
-                    <a href="{% url "latest-effects-by-category" object.category.parent.pk %}">
-                        {{ object.category.parent.name }}
-                    </a> / 
-                {% endif %}
-                <a href="{% url "latest-effects-by-category" object.category.pk %}">{{ object.category.name }}</a>
-            </h6>
-            <div class="description">
-                {{ object.description|truncatewords:60|linebreaks }}
-            </div>
-            <a class="card-link" href="{% url "effect-detail" slug=object.slug %}">Show details</a>
-        </div>
+      </a>
     </div>
+
+    <div class="card-pf-items text-center">
+      {% if object.category.parent %}
+        <div class="card-pf-item">
+          <a href="{% url "latest-effects-by-category" object.category.parent.pk %}">
+          {{ object.category.parent.name }}
+          </a>
+        </div>
+      {% endif %}
+      <div class="card-pf-item">
+        <a href="{% url "latest-effects-by-category" object.category.pk %}">{{ object.category.name }}</a>
+      </div>
+    </div>
+
+    <p class="card-pf-info text-center">
+      <strong>Updated On</strong> {{ object.latest_version.release_date|default:"-" }}
+    </p>
+  </div>
+</div>

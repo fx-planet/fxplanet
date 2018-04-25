@@ -1,0 +1,66 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js" integrity="sha256-rmZZb5ESAjCE4Al5RfENzQBpw1VbShzLes76aW8c+kc=" crossorigin="anonymous"></script>
+<script>
+  $(function() {
+    var defaultData = [
+      {% for cat in categories %}{% if not cat.parent %}
+      {
+        text: '{{ cat.name }}',
+        href: '{% url "latest-effects-by-category" cat.pk %}',
+        state: {
+          expanded: true,
+          {% if cat.pk == category.pk or current_effect.category.parent.pk == cat.pk %}selected: true, expanded: true{% endif %}
+        },
+        nodes: [
+          {% for sub in categories %}{% if cat == sub.parent %}
+          {
+            text: '{{ sub.name }}',
+            href: '{% url "latest-effects-by-category" sub.pk %}',
+            state: {
+              {% if sub.pk == category.pk %}selected: true, expanded: true{% endif %}
+            },
+            nodes: [
+              {% for effect in effects %}{% if sub.pk == effect.category.pk %}
+                {
+                  text: '{{ effect.name }}',
+                  href: '{% url "effect-detail" slug=effect.slug %}',
+                  icon: 'fa fa-file-o',
+                  selectedIcon: 'fa fa-file-o',
+                  state: {
+                    {% if effect.pk == current_effect.pk %}selected: true{% endif %}
+                  }
+                },
+              {% endif %}{% endfor %}
+            ]
+          },
+          {% endif %}{% endfor %}
+          {% for effect in effects %}{% if cat.pk == effect.category.pk %}
+            {
+              text: '{{ effect.name }}',
+              href: '{% url "effect-detail" slug=effect.slug %}',
+              icon: 'fa fa-file-o',
+              selectedIcon: 'fa fa-file-o',
+              state: {
+                {% if effect.pk == current_effect.pk %}selected: true{% endif %}
+              }
+            },
+          {% endif %}{% endfor %}
+        ]
+      },
+      {% endif %}{% endfor %}
+    ];
+
+    $('.effects-tree').treeview({
+      collapseIcon: "fa fa-angle-down",
+      data: defaultData,
+      expandIcon: "fa fa-angle-right",
+      nodeIcon: "fa fa-folder",
+      selectedIcon: "fa pficon-folder-open",
+      selectedColor: "#0088ce !important",
+      onhoverColor: "#dadada !important",
+      showBorder: false,
+      onNodeSelected: function(event, data) {
+        window.location = data.href;
+      }
+    });
+  })
+</script>
