@@ -4,3 +4,4 @@ requests==2.18.4
 Pillow
 python-dateutil
 django-compressor
+python-memcached
