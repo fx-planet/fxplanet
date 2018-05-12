@@ -43,8 +43,8 @@ class LatestEffectsListView(ListView):
 
     def get_context_data(self):
         data = super(LatestEffectsListView, self).get_context_data()
-        data['categories'] = Category.objects.filter()
-        data['effects'] = Effect.objects.filter()
+        data['toplevel_categories'] = Category.objects.filter(
+                                                parent__isnull=True)
 
         if 'category' in self.kwargs:
             cat = Category.objects.get(pk=self.kwargs['category'])
@@ -65,6 +65,6 @@ class EffectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         data = super(EffectDetailView, self).get_context_data(**kwargs)
-        data['categories'] = Category.objects.filter()
-        data['effects'] = Effect.objects.filter()
+        data['toplevel_categories'] = Category.objects.filter(
+                                                parent__isnull=True)
         return data

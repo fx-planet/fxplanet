@@ -14,7 +14,9 @@ LINK_TYPE_CHOICES = (
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    parent = models.ForeignKey(
+            'self', on_delete=models.CASCADE, null=True,
+            related_name='subcategories')
 
     class Meta:
         unique_together = ('name', 'parent')
@@ -28,7 +30,8 @@ class Effect(models.Model):
     filename = models.CharField(max_length=128)
     import_path = models.CharField(max_length=255, null=True, blank=True)
     cover_image = models.ImageField(upload_to='covers', null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(
+            Category, on_delete=models.PROTECT, related_name='effects')
     authors = ArrayField(
             base_field=models.CharField(max_length=128), blank=True)
     maintainers = ArrayField(

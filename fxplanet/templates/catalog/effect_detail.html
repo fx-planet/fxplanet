@@ -84,7 +84,7 @@
 {% endblock %}
 
 {% block foot %}
-  {% include "catalog/effect_browser.html" with categories=categories category=object.category effects=effects current_effect=object %}
+  {% include "catalog/effect_browser.html" with categories=toplevel_categories category=object.category current_effect=object %}
 
   <script type="text/javascript">
     $(document).ready(function() {

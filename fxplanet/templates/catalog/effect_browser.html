@@ -2,51 +2,51 @@
 <script>
   $(function() {
     var defaultData = [
-      {% for cat in categories %}{% if not cat.parent %}
+      {% for cat in categories %}
       {
         text: '{{ cat.name }}',
         href: '{% url "latest-effects-by-category" cat.pk %}',
         state: {
           expanded: true,
-          {% if cat.pk == category.pk or current_effect.category.parent.pk == cat.pk %}selected: true, expanded: true{% endif %}
+          {% if cat == category or current_effect.category.parent == cat %}selected: true, expanded: true{% endif %}
         },
         nodes: [
-          {% for sub in categories %}{% if cat == sub.parent %}
+          {% for sub in cat.subcategories.all %}
           {
             text: '{{ sub.name }}',
             href: '{% url "latest-effects-by-category" sub.pk %}',
             state: {
-              {% if sub.pk == category.pk %}selected: true, expanded: true{% endif %}
+              {% if sub == category %}selected: true, expanded: true{% endif %}
             },
             nodes: [
-              {% for effect in effects %}{% if sub.pk == effect.category.pk %}
+              {% for effect in sub.effects.all %}
                 {
                   text: '{{ effect.name }}',
                   href: '{% url "effect-detail" slug=effect.slug %}',
                   icon: 'fa fa-file-o',
                   selectedIcon: 'fa fa-file-o',
                   state: {
-                    {% if effect.pk == current_effect.pk %}selected: true{% endif %}
+                    {% if effect == current_effect %}selected: true{% endif %}
                   }
                 },
-              {% endif %}{% endfor %}
+              {% endfor %}
             ]
           },
-          {% endif %}{% endfor %}
-          {% for effect in effects %}{% if cat.pk == effect.category.pk %}
+          {% endfor %}
+          {% for effect in cat.effects.all %}
             {
               text: '{{ effect.name }}',
               href: '{% url "effect-detail" slug=effect.slug %}',
               icon: 'fa fa-file-o',
               selectedIcon: 'fa fa-file-o',
               state: {
-                {% if effect.pk == current_effect.pk %}selected: true{% endif %}
+                {% if effect == current_effect %}selected: true{% endif %}
               }
             },
-          {% endif %}{% endfor %}
+          {% endfor %}
         ]
       },
-      {% endif %}{% endfor %}
+      {% endfor %}
     ];
 
     $('.effects-tree').treeview({
