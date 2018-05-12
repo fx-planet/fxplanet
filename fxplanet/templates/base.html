@@ -1,5 +1,5 @@
 <!doctype html>
-{% load staticfiles compress %}
+{% load staticfiles compress flatpages %}
 <html class="layout-pf">
   <head>
     <!-- Required meta tags -->
@@ -42,15 +42,12 @@
               <li>
                 <a href="{% url "latest-effects" %}">Effects</a>
               </li>
+              {% get_flatpages as pages %}
+              {% for page in pages %}
               <li>
-                <a href="/pages/tools/">Tools</a>
+                  <a href="/pages{{ page.url }}">{{ page.title }}</a>
               </li>
-              <li>
-                <a href="/pages/tutorials/">Tutorials</a>
-              </li>
-              <li>
-                <a href="/pages/authors/">Authors</a>
-              </li>
+              {% endfor %}
               <li class="hidden-xs">
                 <form class="navbar-form navbar-right" method="get" id="searchform" action="{% url "latest-effects" %}">
                   <div class="form-group">

@@ -21,6 +21,23 @@ class Category(models.Model):
     class Meta:
         unique_together = ('name', 'parent')
         ordering = ('name',)
+        verbose_name_plural = 'Categories'
+
+    @property
+    def path(self):
+        result = [self]
+        cat = self
+        while cat.parent:
+            result.append(cat.parent)
+            cat = cat.parent
+        return result
+
+    @property
+    def path_names(self):
+        return '/'.join(map(str, self.path))
+
+    def __str__(self):
+        return self.name
 
 
 class Effect(models.Model):
@@ -37,7 +54,8 @@ class Effect(models.Model):
     maintainers = ArrayField(
             base_field=models.CharField(max_length=128), blank=True)
     creation_date = models.DateField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+            auto_now_add=True, verbose_name='synced at')
     license = models.CharField(max_length=64, blank=True, null=True)
 
     def image_links(self):

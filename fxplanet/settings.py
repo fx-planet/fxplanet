@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'compressor',
+    'ckeditor',
+    'flatpagescustom',
     'catalog',
 ]
 
@@ -154,6 +156,14 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'allowedContent': True,
+    },
+}
 
 SITE_ID = 1
 

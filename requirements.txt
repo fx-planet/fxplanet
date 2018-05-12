@@ -5,3 +5,4 @@ Pillow
 python-dateutil
 django-compressor
 python-memcached
+django-ckeditor
