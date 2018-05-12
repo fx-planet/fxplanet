@@ -18,6 +18,7 @@
             state: {
               {% if sub == category %}selected: true, expanded: true{% endif %}
             },
+            {% if sub == category %}
             nodes: [
               {% for effect in sub.effects.all %}
                 {
@@ -31,6 +32,7 @@
                 },
               {% endfor %}
             ]
+            {% endif %}
           },
           {% endfor %}
           {% for effect in cat.effects.all %}
