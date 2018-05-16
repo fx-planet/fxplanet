@@ -62,7 +62,17 @@
       </nav>
     </header>
 
-    {% block content %}{% endblock %}
+    <main id="main" class="container-fluid">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        All content on this site is available on github and licensed under the New BSD License.<br />
+        Copyright (c) 2018, <a href="/pages/authors">Lightworks Community</a>
+      </p>
+    </footer>
+
     {% endblock %}
 
     <!-- Optional JavaScript -->

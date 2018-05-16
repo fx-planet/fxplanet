@@ -1,6 +1,26 @@
 body {
-  margin: 80px;
+  margin: 80px 80px 100px;
+  font-size: 15px;
 }
+
+html {
+  position: relative;
+}
+
+body .site-footer {
+  border-top: 1px solid #D5D5D5;
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  font-size: 13px;
+  line-height: 15px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  width: calc(100% - 60px);
+  text-align: right;
+}
+
+/* Video containers */
 
 .video-container {
   position: relative;
