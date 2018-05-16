@@ -45,7 +45,7 @@
               {% get_flatpages as pages %}
               {% for page in pages %}
               <li>
-                  <a href="/pages{{ page.url }}">{{ page.title }}</a>
+                  <a href="{{ page.url }}">{{ page.title }}</a>
               </li>
               {% endfor %}
               <li class="hidden-xs">
