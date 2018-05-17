@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'sorl.thumbnail',
     'compressor',
     'ckeditor',
     'flatpagescustom',

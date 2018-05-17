@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles thumbnail %}
 
 <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select">
   <div class="card-pf-body">
@@ -10,7 +10,9 @@
     <div class="card-pf-top-element text-center">
       <a href="{% url "effect-detail" slug=object.slug %}">
         {% if object.cover_image %}
-          <img class="card-img-top" src="{{ object.cover_image.url }}" />
+          {% thumbnail object.cover_image "320x240" crop="center" as im %}
+          <img class="card-img-top" src="{{ im.url }}" />
+          {% endthumbnail %}
         {% else %}
           <img class="card-img-top" src="{% static "img/no-photo.png" %}" />
         {% endif %}

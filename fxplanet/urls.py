@@ -27,9 +27,14 @@ urlpatterns = [
             pattern_name='django.contrib.flatpages.views.flatpage',
             permanent=True)),
     path('', include('catalog.urls')),
-    path('', include('django.contrib.flatpages.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(
             settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# flatpages without prefix should be added at the end of the list
+urlpatterns += [
+    path('', include('django.contrib.flatpages.urls')),
+    ]
