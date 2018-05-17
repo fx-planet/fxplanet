@@ -3,12 +3,14 @@
 
 {% block content %}
 
-<h2>Effects
+<h2>
+  <a href="{% url "latest-effects" %}">Effects</a>
+
   {% if object.category %}
-  {% if object.category.parent %}
-  &raquo; {{ object.category.parent.name }}
-  {% endif %}
-  &raquo; {{ object.category.name }}
+    {% if object.category.parent %}
+      &raquo; <a href="{% url "latest-effects-by-category" object.category.parent.pk %}">{{ object.category.parent.name }}</a>
+    {% endif %}
+    &raquo; <a href="{% url "latest-effects-by-category" object.category.pk %}">{{ object.category.name }}</a>
   {% endif %}
 
   &raquo; {{ object.name }}
