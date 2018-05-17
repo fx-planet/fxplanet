@@ -27,6 +27,7 @@ def download(request, slug):
 
 class LatestEffectsListView(ListView):
     model = Effect
+    paginate_by = 8
     template_name = 'latest.html'
     ordering = ('-created_at',)
 
@@ -59,9 +60,6 @@ class LatestEffectsListView(ListView):
 
 class EffectDetailView(DetailView):
     model = Effect
-
-    # def get_success_url(self):
-    #     return reverse('notes-list')
 
     def get_context_data(self, **kwargs):
         data = super(EffectDetailView, self).get_context_data(**kwargs)
