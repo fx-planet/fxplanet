@@ -10,7 +10,7 @@ from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
-from catalog.models import Effect, Category, Link, Version
+from catalog.models import Effect, Category, Version
 
 
 def todate(x):
@@ -86,7 +86,7 @@ class Command(BaseCommand):
                 obj.category = subcat
                 obj.name = name
                 obj.filename = filename
-            obj.description = x['description']
+            obj.description = x.get('description') or x.get('comments') or ''
             obj.import_path = x['path']
             obj.authors = x.get('author') or []
             obj.maintainers = x.get('maintainer') or []
@@ -106,7 +106,8 @@ class Command(BaseCommand):
             if not obj.version_set.filter(release_date=release_date).exists():
                 ver = Version(effect=obj, release_date=release_date)
                 print(obj.filename)
-                ver.effect_file.save(obj.filename, File(open(x['abspath'], 'rb')))
+                ver.effect_file.save(
+                        obj.filename, File(open(x['abspath'], 'rb')))
                 ver.save()
 
         print("Updating links...")
