@@ -64,6 +64,11 @@ body .site-footer {
 .cards-effect .card-pf-info {
   margin-bottom: 5px;
 }
+video.fit-video {
+  width: 100%    !important;
+  height: auto   !important;
+  object-fit: fill;
+}
 @media ( min-width:768px ) {
   .cards-effect {
     display: grid;
@@ -82,3 +87,4 @@ body .site-footer {
     grid-template-columns: auto auto auto auto;
   }
 }
+
