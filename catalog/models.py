@@ -61,6 +61,12 @@ class Effect(models.Model):
     def image_links(self):
         return self.link_set.filter(kind='image')
 
+    def video_links(self):
+        return self.link_set.filter(kind='video')
+
+    def other_links(self):
+        return self.link_set.exclude(kind__in=('image', 'video'))
+
     def has_gallery(self):
         return self.link_set.filter(kind='image').count() > 1
 
@@ -77,6 +83,7 @@ class Effect(models.Model):
 class Link(models.Model):
     effect = models.ForeignKey(Effect, on_delete=models.CASCADE)
     url = models.URLField()
+    media_type = models.CharField(max_length=128, null=True, blank=True)
     kind = models.CharField(
             choices=LINK_TYPE_CHOICES, max_length=32, db_index=True)
 

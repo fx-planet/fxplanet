@@ -72,15 +72,27 @@
       </div>
     {% endif %}
 
-    {% if object.link_set.all %}
+    {% with object.video_links as videos %}
+    {% if videos %}
+        {% for video in videos %}
+        <video width="640" height="360" controls preload="none">
+            <source src="{{ video.url }}" type="{{ video.media_type }}" />
+        </video>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% with object.other_links as others %}
+    {% if others %}
       <hr class="my-sm-5" />
       <h3 class="h5">Additional resources</h3>
       <ul>
-        {% for link in object.link_set.all %}
+        {% for link in others %}
         <li><a href="{{ link.url }}">{{ link.url }}</a></li>
         {% endfor %}
       </ul>
     {% endif %}
+    {% endwith %}
   </div>
 </div>
 {% endblock %}
