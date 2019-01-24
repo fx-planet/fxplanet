@@ -74,8 +74,10 @@
 
     {% with object.video_links as videos %}
     {% if videos %}
+        <hr class="my-sm-5" />
+        <h3 class="h5">Examples</h3>
         {% for video in videos %}
-        <video width="640" height="360" controls preload="none">
+        <video width="640" height="360" controls preload="auto">
             <source src="{{ video.url }}" type="{{ video.media_type }}" />
         </video>
         {% endfor %}
