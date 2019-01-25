@@ -142,8 +142,8 @@ class Command(BaseCommand):
 
         if kw['replace']:
             print("Removing effects not existing in the import file")
-            to_delete = Effect.objects.exclude(
-                    pk__in=list(imported_objs.values_list('pk', flat=True)))
+            imported_pks = map(lambda x: x.pk, imported_objs)
+            to_delete = Effect.objects.exclude(pk__in=imported_pks)
             print("%s effects to be removed...", to_delete.count())
             for obj in to_delete:
                 if obj.cover_image:
