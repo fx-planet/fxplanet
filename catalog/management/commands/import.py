@@ -26,7 +26,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('metadata_path', type=str)
-        parser.add_argument('replace', type=bool, default=False)
+        parser.add_argument(
+            '--replace', default=False, action='store_true')
 
     def handle(self, *args, **kw):
         with open(kw['metadata_path']) as fh:
