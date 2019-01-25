@@ -8,6 +8,7 @@ from io import BytesIO
 
 from django.core.files import File
 from django.core.management.base import BaseCommand
+from django.db.models import Count
 from django.utils.text import slugify
 
 from catalog.models import Effect, Category, Version
@@ -25,6 +26,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('metadata_path', type=str)
+        parser.add_argument('replace', type=bool, default=False)
 
     def handle(self, *args, **kw):
         with open(kw['metadata_path']) as fh:
@@ -136,5 +138,30 @@ class Command(BaseCommand):
                     download_and_save_cover_image, link.url, obj))
 
         wait(asyncs)
+
+        if kw['replace']:
+            print("Removing effects not existing in the import file")
+            to_delete = Effect.objects.exclude(pk__in=imported_objs)
+            print("%s effects to be removed...", to_delete.count())
+            for obj in to_delete:
+                if obj.cover_image:
+                    obj.cover_image.delete(save=False)
+                obj.delete()
+            print("Effects were removed.")
+
+            print("Removing empty categories...")
+            while True:
+                categories = Category.objects.annotate(
+                    sub_cnt=Count('subcategories'),
+                    fx_cnt=Count('effects')).filter(sub_cnt=0, fx_cnt=0)
+                if categories:
+                    print("Found %s categories without child items")
+                    names = list(categories.values_list('pk', 'name'))
+                    categories.delete()
+                    print("Deleted categories: %s", names)
+                else:
+                    print("No more categories to delete.")
+                    break
+            print("Finished removing categories.")
 
         print("Done.")
