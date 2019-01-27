@@ -105,6 +105,14 @@ class Command(BaseCommand):
                         url=url, defaults={'kind': 'other'})[0]
                 link_types_as.append(executor.submit(fetch_contentype, link))
 
+            saved_links = obj.link_set.values_list('url', flat=True)
+            links_to_remove = list(set(saved_links) - set(links))
+            if links_to_remove:
+                print(
+                    "Removing old links of effect %s: %s",
+                    obj, links_to_remove)
+                obj.link_set.filter(url__in=links_to_remove).delete()
+
             release_date = todate(x.get('released'))
             if not obj.version_set.filter(release_date=release_date).exists():
                 ver = Version(effect=obj, release_date=release_date)
