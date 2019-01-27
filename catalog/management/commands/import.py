@@ -108,9 +108,8 @@ class Command(BaseCommand):
             saved_links = obj.link_set.values_list('url', flat=True)
             links_to_remove = list(set(saved_links) - set(links))
             if links_to_remove:
-                print(
-                    "Removing old links of effect %s: %s",
-                    obj, links_to_remove)
+                print("Removing old links of effect %s: %s" % (
+                                            obj, links_to_remove))
                 obj.link_set.filter(url__in=links_to_remove).delete()
 
             release_date = todate(x.get('released'))
@@ -152,7 +151,7 @@ class Command(BaseCommand):
             print("Removing effects not existing in the import file")
             imported_pks = map(lambda x: x.pk, imported_objs)
             to_delete = Effect.objects.exclude(pk__in=imported_pks)
-            print("%s effects to be removed...", to_delete.count())
+            print("%s effects to be removed..." % to_delete.count())
             for obj in to_delete:
                 if obj.cover_image:
                     obj.cover_image.delete(save=False)
@@ -165,10 +164,12 @@ class Command(BaseCommand):
                     sub_cnt=Count('subcategories'),
                     fx_cnt=Count('effects')).filter(sub_cnt=0, fx_cnt=0)
                 if categories:
-                    print("Found %s categories without child items")
+                    print(
+                        "Found %s categories without child items" % len(
+                                                                categories))
                     names = list(categories.values_list('pk', 'name'))
                     categories.delete()
-                    print("Deleted categories: %s", names)
+                    print("Deleted categories: %s" % names)
                 else:
                     print("No more categories to delete.")
                     break
