@@ -42,7 +42,7 @@
             {{ object.name }}
           </div>
 
-          <strong>Author(s):</strong> <br />
+          <strong>Author(s):</strong> {{ object.authors|join:", " }}<br />
           <strong>Release date: </strong> {{ version.release_date|default:"-" }}<br />
           <strong>Creation date: </strong> {{ object.creation_date|default:"-" }}<br />
           <strong>License: </strong> {{ object.license|default:"unknown" }}<br />
